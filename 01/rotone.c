@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   first_word.c                                       :+:      :+:    :+:   */
+/*   rotone.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blukasho <bodik1w@gmail.com>               +#+  +:+       +#+        */
+/*   By: blukasho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/16 13:59:48 by blukasho          #+#    #+#             */
-/*   Updated: 2018/12/17 15:13:53 by blukasho         ###   ########.fr       */
+/*   Created: 2018/12/17 14:56:30 by blukasho          #+#    #+#             */
+/*   Updated: 2018/12/17 15:09:16 by blukasho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+
+void		rotone(char c)
+{
+	if (c >= 'A' && c <= 'Y')
+		++c;
+	else if (c >= 'a' && c <= 'y')
+		++c;
+	else if (c == 'z' || c == 'Z')
+		c -= 25;
+	write(1, &c, 1);
+}
 
 int			main(int argc, char **argv)
 {
@@ -18,10 +29,8 @@ int			main(int argc, char **argv)
 
 	if (argc == 2 && (str = *(++argv)))
 	{
-		while (*str && (*str == ' ' || *str == '\t'))
-			++str;
-		while (*str && *str != ' ' && *str != '\t')
-			write(1, &(*(str++)), 1);
+		while (*str)
+			rotone(*(str++));
 	}
 	return (write(1, "\n", 1));
 }

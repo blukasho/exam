@@ -6,7 +6,7 @@
 /*   By: blukasho <bodik1w@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/16 15:16:30 by blukasho          #+#    #+#             */
-/*   Updated: 2018/12/16 15:18:08 by blukasho         ###   ########.fr       */
+/*   Updated: 2018/12/17 15:11:40 by blukasho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_putstr(char *str)
 {
-	while(*str)
+	while (*str)
 		write(1, &(*(str++)), 1);
 }
