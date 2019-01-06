@@ -6,12 +6,11 @@
 /*   By: blukasho <bodik1w@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 12:29:34 by blukasho          #+#    #+#             */
-/*   Updated: 2019/01/06 14:02:45 by blukasho         ###   ########.fr       */
+/*   Updated: 2019/01/06 14:10:16 by blukasho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 
 int			ft_atoi(char *s)
 {
