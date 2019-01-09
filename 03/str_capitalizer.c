@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rstr_capitalizer.c                                 :+:      :+:    :+:   */
+/*   str_capitalizer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blukasho <bodik1w@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/09 08:17:01 by blukasho          #+#    #+#             */
-/*   Updated: 2019/01/09 11:48:26 by blukasho         ###   ########.fr       */
+/*   Created: 2019/01/09 11:44:21 by blukasho          #+#    #+#             */
+/*   Updated: 2019/01/09 14:27:30 by blukasho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			is_whitespace(char c)
 {
-	return ((c >= 0 && c <= 32 ? 1 : 0));
+	return ((c >= 1 && c <= 32 ? 1 : 0));
 }
 
 char		to_lower(char c)
@@ -27,16 +27,32 @@ char		to_upper(char c)
 	return ((c >= 'a' && c <= 'z' ? c - 32 : c));
 }
 
-int			rstr_capitalizer(char *s)
+int			str_capitalizer(char *s)
 {
+	int		w;
 	char	c;
-
-	while (*s && (c = *(s++)))
-		if (is_whitespace(*(s)) && (c = to_upper(c)))
-			write(1, &c, 1);
-		else if ((c = to_lower(c)))
-			write(1, &c, 1);
-	return(1);
+	
+	w = 0;
+	while (*s)
+	{
+		if (!is_whitespace(*s))
+		{
+			if (!w && (c = to_upper(*s)))
+			{
+				++w;
+				write(1, &c, 1);
+			}
+			else if ((c = to_lower(*s)))
+				write(1, &c, 1);
+		}
+		else
+		{
+			w = 0;
+			write(1, &(*s), 1);
+		}
+		++s;
+	}
+	return (1);
 }
 
 int			main(int argc, char **argv)
@@ -45,7 +61,7 @@ int			main(int argc, char **argv)
 
 	if (argc > 1 && !(i = 0))
 		while (++i < argc)
-			if (rstr_capitalizer(argv[i]) && (i + 1) < argc)
+			if (str_capitalizer(argv[i]) && (i + 1) < argc)
 				write(1, "\n", 1);
 	return (write(1, "\n", 1));
 }
