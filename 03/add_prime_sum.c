@@ -3,45 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   add_prime_sum.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blukasho <bodik1w@gmail.com>               +#+  +:+       +#+        */
+/*   By: blukasho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/28 19:12:20 by blukasho          #+#    #+#             */
-/*   Updated: 2018/12/29 11:00:23 by blukasho         ###   ########.fr       */
+/*   Created: 2019/04/22 12:49:14 by blukasho          #+#    #+#             */
+/*   Updated: 2019/04/22 17:31:03 by blukasho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <unistd.h>
 
-int			is_prime(int i)
+int			is_prime(long i)
 {
-	int		n;
+	long	r;
 
-	n = i;
-	while (--n > 1)
-		if ((i % n) == 0)
+	r = i;
+	while (--r > 1)
+		if ((i % r) == 0)
 			return (0);
-	return ((i > 1 ? 1 : 0));
+	return (i > 1 ? 1 : 0);
 }
 
-int			prime_sum(int p)
+long		sum_prime(long n)
 {
-	int		i;
-	int		r;
+	long	r;
 
-	i = 0;
 	r = 0;
-	while (++i <= p)
-		if (is_prime(i))
-			r += i;
+	while (n)
+		if (is_prime(n--))
+				r += n + 1;
 	return (r);
 }
 
-void		ft_putnbr(int i)
+long		ft_atoi(char *s)
+{
+	int		m;
+	long	r;
+
+	while (!(m = 0) && *s && *s >= 1 && *s <= 32)
+		++s;
+	if (!(r = 0) && (*s == '-' || *s == '+'))
+		if (*(s++) == '-')
+			++m;
+	while (*s >= '0' && *s <= '9')
+		r = (r * 10) + (*(s++) - 48);
+	return (m ? -r : r);
+}
+
+void		ft_putnbr(long i)
 {
 	char	n;
 
-	if (i >= 10)
+	if (i > 9)
 	{
 		n = (i % 10) + 48;
 		ft_putnbr(i / 10);
@@ -54,26 +66,15 @@ void		ft_putnbr(int i)
 	}
 }
 
-int			ft_atoi(char *s)
-{
-	int		m;
-	int 	res;
-
-	while (*s >= 1 && *s <= 32 && *s)
-		++s;
-	if (!(res = 0) && (*s == '-' || *s == '+'))
-		if (!(m = 0) && *(s++) == '-')
-			m = 1;
-	while (*s >= '0' && *s <= '9')
-		res = (res * 10) + (*(s++) - '0');
-	return (m ? -res : res);
-}
-
 int			main(int argc, char **argv)
 {
-	if (argc == 2 && (argc = ft_atoi(argv[1])) > 0)
-		ft_putnbr(prime_sum(argc));
+	int		i;
+
+	i = 0;
+	if (argc == 2 && argv)
+		ft_putnbr(sum_prime(ft_atoi(argv[1])));
 	else
-		return (write(1, "0\n", 2));
-	return (write(1, "\n", 1));
+		write(1, "0", 1);
+	write(1, "\n", 1);
+	return (0);
 }

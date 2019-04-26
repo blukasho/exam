@@ -3,48 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   expand_str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blukasho <bodik1w@gmail.com>               +#+  +:+       +#+        */
+/*   By: blukasho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/30 12:27:58 by blukasho          #+#    #+#             */
-/*   Updated: 2018/12/30 13:19:48 by blukasho         ###   ########.fr       */
+/*   Created: 2019/04/26 14:00:03 by blukasho          #+#    #+#             */
+/*   Updated: 2019/04/26 14:05:49 by blukasho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-int		is_split(char c)
+int		is_space_tab(char c)
 {
-	return ((c >= 1 && c <= 32 ? 1 : 0));
+	return ((c == ' ' || c == '\t') ? 1 : 0);
 }
 
-char	*print_word(char *s)
+int		has_word(char *str)
 {
-	while (*s && !is_split(*s))
-		write(1, &(*(s++)), 1);
-	return (s);
+	while (*str)
+		if (!is_space_tab(*(str++)))
+			return (1);
+	return (0);
 }
 
-void	expand_str(char *s)
+void	expand_str(char *str)
 {
-	int	sw;
+	int	i;
 
-	while (is_split(*s) && !(sw = 0))
-		++s;
-	while (*s)
-		if (!is_split(*s))
-		{
-			if (sw)
-				write(1, "   ", 3);
-			s = print_word(s);
-			++sw;
-		}
-		else
-			++s;
+	i = 1;
+	while (*str)
+	{
+		i = 0;
+		while (*str && is_space_tab(*str))
+			++str;
+		while (*str && !is_space_tab(*str) && (i = 1))
+			write(1, (str++), 1);
+		if (*str && has_word(str))
+			write(1, "   ", 3);
+	}
 }
 
 int		main(int argc, char **argv)
 {
-	if (argc == 2)
-		expand_str(argv[1]);
-	return (write(1, "\n", 1));
+	--argc;
+	++argv;
+	if (argc == 1)
+		expand_str(*argv);
+	write(1, "\n", 1);
+	return (0);
 }

@@ -3,47 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   epur_str.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blukasho <bodik1w@gmail.com>               +#+  +:+       +#+        */
+/*   By: blukasho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/29 12:14:16 by blukasho          #+#    #+#             */
-/*   Updated: 2018/12/30 10:44:29 by blukasho         ###   ########.fr       */
+/*   Created: 2019/04/26 13:42:23 by blukasho          #+#    #+#             */
+/*   Updated: 2019/04/26 14:01:28 by blukasho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void		ft_memmove(char *dst, char *src)
+int			is_space_tab(char c)
 {
-	while (*src)
-		*(dst++) = *(src++);
-	*dst = '\0';
+	return ((c == ' ' || c == '\t') ? 1 : 0);
 }
 
-void		ft_putstr(char *s)
+int			has_word(char *str)
 {
-	while (*s)
-		write(1, &(*(s++)), 1);
-}
-
-int			epur_str(char *s)
-{
-	while (*s && (*s == ' ' || *s == '\t'))
-		ft_memmove(s, s + 1);
-	while (*s)
-	{
-		if ((*s == ' ' || *s == '\t') && (*s = ' '))
-			while (*(s + 1) == ' ' || *(s + 1) == '\t')
-				ft_memmove(s + 1, s + 2);
-		++s;
-	}
-	if (*(--s) == ' ')
-		*s = '\0';
+	while (*str)
+		if (!is_space_tab(*(str++)))
+				return (1);
 	return (0);
+}
+
+void		epur_str(char *str)
+{
+	int		i;
+
+	i = 1;
+	while (*str)
+	{
+		i = 0;
+		while (*str && is_space_tab(*str))
+			++str;
+		while (*str && !is_space_tab(*str) && (i = 1))
+			write(1, (str++), 1);
+		if (*str && has_word(str))
+			write(1, " ", 1);
+	}
 }
 
 int			main(int argc, char **argv)
 {
-	if (argc == 2 && !epur_str(argv[1]))
-		ft_putstr(argv[1]);
-	return (write(1, "\n", 1));
+	--argc;
+	++argv;
+	if (argc == 1)
+		epur_str(*argv);
+	write(1, "\n", 1);
+	return (0);
 }
